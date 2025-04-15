@@ -31,14 +31,6 @@
       ...updatedValue,
     });
   };
-
-  const onAddCheckbox = () => {
-    emit('add:checkbox');
-  };
-
-  const onRemoveCheckbox = (id: string) => {
-    emit('remove:checkbox', id);
-  };
 </script>
 
 <template>
@@ -55,11 +47,10 @@
             placeholder="Untitled"
             class="hidden"
             @change="
-              (event) =>
-                onUpdateValue({
-                  id: checkbox.id,
-                  checked: (event.target as HTMLInputElement).checked,
-                })
+              onUpdateValue({
+                id: checkbox.id,
+                checked: ($event.target as HTMLInputElement).checked,
+              })
             "
           />
 
@@ -76,13 +67,15 @@
           class="text-14 field-sizing-content min-w-[100px] resize-none break-after-all pt-1 outline-none"
           maxlength="50"
           @input="
-            (event) =>
-              onUpdateValue({ id: checkbox.id, label: (event.target as HTMLInputElement).value })
+            onUpdateValue({
+              id: checkbox.id,
+              label: ($event.target as HTMLInputElement).value,
+            })
           "
         />
         <button
           class="text-ui-gray-300 inline-flex cursor-pointer items-center justify-center"
-          @click="onRemoveCheckbox(checkbox.id)"
+          @click="emit('remove:checkbox', checkbox.id)"
         >
           <Icon name="mdi:close" class="text-18" />
         </button>
@@ -91,7 +84,7 @@
 
     <button
       class="border-ui-black-300 text-14 inline-flex w-fit cursor-pointer items-center gap-2 rounded-md border px-3 py-2"
-      @click="onAddCheckbox"
+      @click="emit('add:checkbox')"
     >
       <Icon name="mdi:plus" class="text-18" />
       Add Checkbox

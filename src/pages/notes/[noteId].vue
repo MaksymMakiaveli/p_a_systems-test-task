@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { provide } from 'vue';
+  import { useNoteIdModelView } from '~/composables/pages/noteId/noteId.module';
   import { NoteCheckboxSection } from '~/features/note/note-checkbox-section';
   import { NoteImageSection } from '~/features/note/note-image-section';
   import { NoteType } from '~/shared/api/entities/note.entity';
@@ -11,13 +11,10 @@
     SelectValue,
   } from '~/shared/ui/select';
   import { DateFormatter } from '~/shared/utils/date';
-  import { useNoteIdModelView } from './-noteId.model';
 
   const { data, actions } = useNoteIdModelView();
 
   const { note } = data;
-
-  provide('note', note);
 </script>
 
 <template>
@@ -88,6 +85,7 @@
             v-if="note.type === NoteType.IMAGE"
             :src="note.imageSrc"
             @update:src="actions.onUploadImage"
+            @delete:image="actions.onDeleteImageNote"
           />
 
           <NoteCheckboxSection

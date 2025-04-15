@@ -1,13 +1,15 @@
 <script setup lang="ts">
   type Props = {
-    src?: string;
+    src?: string | null;
   };
 
   type Emits = {
     'update:src': [string];
+
+    'delete:image': [];
   };
 
-  const props = defineProps<Props>();
+  defineProps<Props>();
 
   const emit = defineEmits<Emits>();
 
@@ -31,9 +33,13 @@
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
-    <div v-if="props.src" class="flex w-full justify-center overflow-hidden rounded-md">
-      <img :src="props.src" alt="Note Image" class="object-fit aspect-video" />
+  <div class="flex flex-col gap-2" v-bind="$attrs">
+    <div v-if="src" class="relative flex w-full justify-center overflow-hidden rounded-md">
+      <img :src="src" alt="Note Image" class="object-fit aspect-video" />
+
+      <button class="absolute top-2 right-2 cursor-pointer" @click="emit('delete:image')">
+        <Icon name="mdi:close" class="text-24" />
+      </button>
     </div>
 
     <label

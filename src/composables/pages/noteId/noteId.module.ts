@@ -1,5 +1,5 @@
 import { navigateTo } from '#app';
-import debounce from 'lodash.debounce';
+import { useDebounceFn } from '#imports';
 import type { AcceptableValue } from 'reka-ui';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
@@ -20,7 +20,7 @@ export function useNoteIdModelView() {
     return route.params.noteId as string;
   });
 
-  const onUpdateNote = debounce((value: Omit<NoteEntity, 'id'>) => {
+  const onUpdateNote = useDebounceFn((value: Omit<NoteEntity, 'id'>) => {
     noteRepository.updateNote(noteId.value, value);
   }, 300);
 
@@ -133,6 +133,14 @@ export function useNoteIdModelView() {
     >);
   };
 
+  const onDeleteImageNote = () => {
+    if (!noteState.value || noteState.value.type !== NoteType.IMAGE) return;
+
+    noteState.value.imageSrc = null;
+
+    onUpdateNote({ imageSrc: null } as Extract<NoteEntity, { type: NoteType.IMAGE }>);
+  };
+
   onMounted(() => {
     if (noteRepository.notes.length <= 0) {
       return navigateTo(ROUTER_BOOK.note.root());
@@ -161,6 +169,7 @@ export function useNoteIdModelView() {
       onAddCheckbox,
       onRemoveCheckbox,
       onUpdateCheckboxValue,
+      onDeleteImageNote,
     },
   };
 }
