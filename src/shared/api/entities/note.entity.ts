@@ -7,16 +7,31 @@ export enum NoteType {
 export type NoteBase = {
   id: string;
 
-  createdAt: Date;
+  /**
+   * @description The date and time the note was created. ISO 8601 format.
+   * @value string
+   */
+  createdAt: string;
 
-  updatedAt: Date;
+  /**
+   * @description The date and time the note was last updated. ISO 8601 format.
+   * @value string
+   */
+  updatedAt: string;
+
+  /**
+   * @description The date and time the note was last opened. ISO 8601 format.
+   * @value string | null
+   */
+
+  lastOpenedAt: string | null;
 
   title: string;
-};
 
-export type NoteDefault = NoteBase & { type: NoteType.DEFAULT } & {
   text: string;
 };
+
+export type NoteDefault = NoteBase & { type: NoteType.DEFAULT };
 
 export type NoteImage = NoteBase & { type: NoteType.IMAGE } & {
   imageSrc: string;
