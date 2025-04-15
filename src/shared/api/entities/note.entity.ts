@@ -34,7 +34,7 @@ export type NoteBase = {
 export type NoteDefault = NoteBase & { type: NoteType.DEFAULT };
 
 export type NoteImage = NoteBase & { type: NoteType.IMAGE } & {
-  imageSrc: string;
+  imageSrc: string | null;
 };
 
 export type NoteCheckbox = NoteBase & { type: NoteType.CHECKBOX } & {

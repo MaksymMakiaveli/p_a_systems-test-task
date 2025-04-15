@@ -1,6 +1,6 @@
 <script lang="ts">
   import { useMounted } from '#imports';
-  import type { TeleportProps } from 'vue';
+  import { Teleport, type TeleportProps } from 'vue';
 
   export type ModalPortalProps = Partial<TeleportProps> & {
     forceMount?: boolean;
@@ -16,7 +16,7 @@
 </script>
 
 <template>
-  <Portal v-if="isMounted || forceMount" :to="to" :disabled="disabled" :defer="defer">
+  <Teleport v-if="isMounted || forceMount" :to="to" :disabled="disabled" :defer="defer">
     <slot />
-  </Portal>
+  </Teleport>
 </template>
