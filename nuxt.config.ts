@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
     'shadcn-nuxt',
+    '@vueuse/nuxt',
   ],
 
   devtools: { enabled: true },

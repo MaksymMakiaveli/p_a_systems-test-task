@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { provide } from 'vue';
   import { NoteCheckboxSection } from '~/features/note/note-checkbox-section';
   import { NoteImageSection } from '~/features/note/note-image-section';
   import { NoteType } from '~/shared/api/entities/note.entity';
@@ -15,6 +16,8 @@
   const { data, actions } = useNoteIdModelView();
 
   const { note } = data;
+
+  provide('note', note);
 </script>
 
 <template>

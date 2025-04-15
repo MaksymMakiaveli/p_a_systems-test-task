@@ -2,8 +2,9 @@
   import { navigateTo, useRoute } from '#app';
   import { NoteTile } from '$entities/notes/ui/note-tile';
   import { useNoteRepository } from '$shared/api/repositories/note.repository';
-  import { computed } from 'vue';
+  import { computed, ref } from 'vue';
   import { ROUTER_BOOK } from '~/kernel/routes/router-book';
+  import { Modal } from '~/shared/ui/modal';
   import { DateFormatter } from '~/shared/utils/date';
   import { cn } from '~/shared/utils/misc';
 
@@ -11,11 +12,22 @@
 
   const route = useRoute();
 
+  const isModalOpen = ref(false);
+
   const onClickNoteTile = async (noteId: string) => {
     await navigateTo({ path: ROUTER_BOOK.note.particular({ noteId }) });
   };
 
   const currentNoteId = computed(() => route.params.noteId);
+
+  const onDeleteNote = async (noteId: string) => {
+    noteRepository.deleteNote(noteId);
+    isModalOpen.value = false;
+
+    if (currentNoteId.value === noteId) {
+      await navigateTo({ path: ROUTER_BOOK.note.root() });
+    }
+  };
 </script>
 
 <template>
@@ -41,6 +53,7 @@
                 })
               "
               @click="onClickNoteTile(note.id)"
+              @click:close="isModalOpen = true"
             />
           </div>
         </div>
@@ -48,5 +61,29 @@
 
       <NuxtPage />
     </div>
+    <Modal.Root v-model:open="isModalOpen">
+      <Modal.Portal>
+        <Modal.Content class="w-[300px]">
+          <template #title>
+            <h6 class="text-18 font-medium">Do you want to delete this note?</h6>
+          </template>
+
+          <div class="flex gap-2 pt-3">
+            <button
+              class="bg-ui-black-200 text-14 grow cursor-pointer rounded-md px-4 py-2 font-medium"
+              @click="isModalOpen = false"
+            >
+              Cancel
+            </button>
+            <button
+              class="bg-ui-black-200 text-14 grow cursor-pointer rounded-md px-4 py-2 font-medium"
+              @click="onDeleteNote(currentNoteId as string)"
+            >
+              Delete
+            </button>
+          </div>
+        </Modal.Content>
+      </Modal.Portal>
+    </Modal.Root>
   </div>
 </template>

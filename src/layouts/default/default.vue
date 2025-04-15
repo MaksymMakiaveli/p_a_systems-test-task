@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { NuxtLink } from '#components';
-  import PlusIcon from '$assets/icons/plus.svg';
   import { NoteIcon } from '$entities/notes/ui';
   import { ROUTER_BOOK } from '$kernel/routes/router-book';
   import { useNoteRepository } from '$shared/api/repositories/note.repository';
@@ -21,7 +20,7 @@
           class="bg-ui-gray-900 hover:bg-ui-gray-700 flex h-10 w-full cursor-pointer items-center justify-center gap-2 px-4 transition-colors"
           @click="noteRepository.createNote()"
         >
-          <PlusIcon />
+          <Icon name="mdi:plus" class="text-24" />
           New Note
         </button>
       </div>
