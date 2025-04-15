@@ -18,7 +18,7 @@
     await navigateTo({ path: ROUTER_BOOK.note.particular({ noteId }) });
   };
 
-  const currentNoteId = computed(() => route.params.noteId);
+  const currentNoteId = computed(() => route.params.noteId as string);
 
   const onDeleteNote = async (noteId: string) => {
     noteRepository.deleteNote(noteId);
